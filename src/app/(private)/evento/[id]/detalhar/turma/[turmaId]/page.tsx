@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, FileUp, Lock } from "lucide-react";
+import { ArrowLeft, Download, FileUp, Lock } from "lucide-react";
 import { Breadcrumb } from "antd";
 import { BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import BreadcrumbItem from "antd/es/breadcrumb/BreadcrumbItem";
@@ -14,6 +14,7 @@ import { EventoService } from "@/services/Evento";
 import { TablePresenca } from "./components/table-presenca-component";
 import { Page } from "@/components/page";
 import { BreadCrumb } from "@/components/bread-crumb";
+import { BotaoExportaTabela } from "./components/button-export-table";
 
 export default function DetalharTurma() {
     const params = useParams();
@@ -43,7 +44,7 @@ export default function DetalharTurma() {
             isCurrentPage: true,
         },
     ];
-
+    const tabelaID = "tabela-presenca";
     return (
         <Page>
             <BreadCrumb items={breadcrumbItems} />
@@ -68,9 +69,10 @@ export default function DetalharTurma() {
                         <Lock size={20} />
                         Importar Alunos
                     </Button>
+                    <BotaoExportaTabela tabelaID={tabelaID} />
                 </div>
             </div>
-            <TablePresenca data={data} />
+            <TablePresenca tabelaID={tabelaID} data={data} />
         </Page>
     );
 }
