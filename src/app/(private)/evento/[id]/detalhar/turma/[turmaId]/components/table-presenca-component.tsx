@@ -8,28 +8,15 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { GetPresencaByTurmaDto } from "@/services/Evento/dto/get-presenca-by-turma.dto";
-import { format } from "date-fns"; // Corrigido para format
-import { useEffect, useState } from "react";
+import { formatDate } from "date-fns";
 
 interface TablePresencaProps {
     data?: GetPresencaByTurmaDto[];
-    tabelaID: string; // Adicionando tabelaID como prop para garantir que é passado corretamente
 }
 
-export function TablePresenca({
-    data,
-    tabelaID,
-}: Readonly<TablePresencaProps>) {
-    const [tableElement, setTableElement] = useState<HTMLTableElement | null>(
-        null,
-    );
-
-    useEffect(() => {
-        setTableElement(document.getElementById(tabelaID) as HTMLTableElement);
-    }, [tabelaID]);
-
+export function TablePresenca({ data }: Readonly<TablePresencaProps>) {
     return (
-        <Table id={tabelaID}>
+        <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead className="w-[100px]">Matricula</TableHead>
@@ -40,27 +27,24 @@ export function TablePresenca({
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {data?.map((item) => (
-                    <TableRow key={item.id}>
+                {data?.map((data) => (
+                    <TableRow key={data.id}>
                         <TableCell className="font-medium">
-                            {item.pessoa.codigo}
+                            {data.pessoa.codigo}
                         </TableCell>
-                        <TableCell>{item.pessoa.nome}</TableCell>
+                        <TableCell>{data.pessoa.nome}</TableCell>
                         <TableCell>
-                            {item.dataPresenca
-                                ? format(
-                                      new Date(item.dataPresenca),
-                                      "dd/MM/yyyy",
-                                  )
+                            {data.dataPresenca
+                                ? formatDate(data.dataPresenca, "dd/MM/yyyy")
                                 : ""}
                         </TableCell>
                         <TableCell>
-                            {item.horaPresenca
-                                ? format(new Date(item.horaPresenca), "HH:mm")
+                            {data.horaPresenca
+                                ? formatDate(data.horaPresenca, "HH:mm")
                                 : ""}
                         </TableCell>
                         <TableCell>
-                            <Badge className="bg-green-600 text-center text-white">
+                            <Badge className=" bg-green-600  text-center text-white">
                                 Presente
                             </Badge>
                         </TableCell>
